@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Basic Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #chatbox {
+      width: 400px;
+      max-width: 90%;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+    }
+    .message {
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 75%;
+      line-height: 1.4;
+    }
+    .user {
+      background: #0078ff;
+      color: white;
+      margin-left: auto;
+    }
+    .bot {
+      background: #e9ecef;
+      margin-right: auto;
+    }
+    #inputArea {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+    #userInput {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+    #sendBtn {
+      padding: 10px 15px;
+      background: #0078ff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #sendBtn:hover {
+      background: #005fcc;
+    }
+  </style>
+</head>
+<body>
+  <div id="chatbox">
+    <div id="messages"></div>
+    <div id="inputArea">
+      <input id="userInput" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter'){sendMessage()}"/>
+      <button id="sendBtn" onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    function getBotResponse(input) {
+      input = input.toLowerCase();
+
+      if (input.includes("hello") || input.includes("hi")) return "Hello 👋! How can I help you today?";
+      if (input.includes("hackathon")) return "The hackathon starts at 9 AM and ends at 6 PM 🚀.";
+      if (input.includes("location")) return "The event is at the Main Auditorium, City Campus 📍.";
+      if (input.includes("register")) return "You can register at: https://example.com/register 📝";
+      if (input.includes("bye")) return "Goodbye! Have a great day ✨";
+
+      return "Sorry, I don’t understand that 🤔. Try asking about 'hackathon', 'location', or 'register'.";
+    }
+
+    function sendMessage() {
+      let userInput = document.getElementById("userInput").value.trim();
+      if (userInput === "") return;
+
+      let messages = document.getElementById("messages");
+
+      // User message
+      let userMsg = document.createElement("div");
+      userMsg.className = "message user";
+      userMsg.innerText = userInput;
+      messages.appendChild(userMsg);
+
+      // Bot reply
+      let botReply = getBotResponse(userInput);
+      let botMsg = document.createElement("div");
+      botMsg.className = "message bot";
+      botMsg.innerText = botReply;
+      messages.appendChild(botMsg);
+
+      // Scroll to bottom
+      messages.scrollTop = messages.scrollHeight;
+
+      // Clear input
+      document.getElementById("userInput").value = "";
+    }
+  </script>
+</body>
+</html>
